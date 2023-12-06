@@ -74,4 +74,24 @@ class LoggerTest extends TestCase
         $this->assertEquals("Warning: Hello World\n", $this->getWarningOutput());
         $this->assertEquals("Critical: Hello World\n", $this->getCriticalOutput());
     }
+
+    /** @test */
+    public function debug_and_info_messages_are_not_logged_if_the_log_level_is_set_to_warning_but_warning_and_error_messages_are()
+    {
+        $this->logger->setLogLevel(Logger::LOG_LEVEL_WARNING);
+        $this->assertEquals("", $this->getDebugOutput());
+        $this->assertEquals("", $this->getInfoOutput());
+        $this->assertEquals("Warning: Hello World\n", $this->getWarningOutput());
+        $this->assertEquals("Critical: Hello World\n", $this->getCriticalOutput());
+    }
+
+    /** @test */
+    public function only_error_messages_are_logged_when_the_log_level_is_set_to_critical()
+    {
+        $this->logger->setLogLevel(Logger::LOG_LEVEL_CRITICAL);
+        $this->assertEquals("", $this->getDebugOutput());
+        $this->assertEquals("", $this->getInfoOutput());
+        $this->assertEquals("", $this->getWarningOutput());
+        $this->assertEquals("Critical: Hello World\n", $this->getCriticalOutput());
+    }
 }
