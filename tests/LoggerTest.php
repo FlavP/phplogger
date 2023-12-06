@@ -94,4 +94,24 @@ class LoggerTest extends TestCase
         $this->assertEquals("", $this->getWarningOutput());
         $this->assertEquals("Critical: Hello World\n", $this->getCriticalOutput());
     }
+
+    /** @test */
+    public function the_log_level_is_unchanged_if_an_invalid_log_level_is_set()
+    {
+        $this->logger->setLogLevel("Invalid Log Level");
+        $this->assertEquals("Debug: Hello World\n", $this->getDebugOutput());
+        $this->assertEquals("Info: Hello World\n", $this->getInfoOutput());
+        $this->assertEquals("Warning: Hello World\n", $this->getWarningOutput());
+        $this->assertEquals("Critical: Hello World\n", $this->getCriticalOutput());
+    }
+
+    /** @test */
+    public function the_log_level_is_unchanged_if_a_null_log_level_is_set()
+    {
+        $this->logger->setLogLevel();
+        $this->assertEquals("Debug: Hello World\n", $this->getDebugOutput());
+        $this->assertEquals("Info: Hello World\n", $this->getInfoOutput());
+        $this->assertEquals("Warning: Hello World\n", $this->getWarningOutput());
+        $this->assertEquals("Critical: Hello World\n", $this->getCriticalOutput());
+    }
 }

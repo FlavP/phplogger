@@ -45,8 +45,12 @@ class Logger
         $this->log('Critical: ' . $message, self::LOG_LEVEL_CRITICAL);
     }
     
-    public function setLogLevel(string $logLevel): void
+    public function setLogLevel(string $logLevel = null): void
     {
+        if (!isset($this->logLevels[$logLevel])) {
+            return;
+        }
+
         $this->logLevel = $logLevel;
     }
 
