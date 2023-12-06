@@ -2,36 +2,20 @@
 
 declare(strict_types=1);
 
+namespace Tests;
+
 use PFlav\PHPLogger\Logger;
+use PFlav\PHPLogger\Targets\AbstractLogger;
 use PHPUnit\Framework\TestCase;
 
 class LoggerTest extends TestCase
 {
+    use LoggerTestTrait;
     private Logger $logger;
     protected function setUp(): void
     {
         parent::setUp();
         $this->logger = new Logger();
-    }
-    private function getDebugOutput(): string
-    {
-        ob_start();
-        $this->logger->debug("Hello World");
-        return ob_get_clean();
-    }
-
-    private function getInfoOutput(): string
-    {
-        ob_start();
-        $this->logger->info("Hello World");
-        return ob_get_clean();
-    }
-
-    private function getWarningOutput(): string
-    {
-        ob_start();
-        $this->logger->warning("Hello World");
-        return ob_get_clean();
     }
 
     private function getCriticalOutput(): string
@@ -68,7 +52,7 @@ class LoggerTest extends TestCase
     /** @test */
     public function a_debug_message_is_not_logged_if_the_log_level_is_set_to_info_but_info_warning_and_error_messages_are()
     {
-        $this->logger->setLogLevel(Logger::LOG_LEVEL_INFO);
+        $this->logger->setLogLevel(AbstractLogger::LOG_LEVEL_INFO);
         $this->assertEquals("", $this->getDebugOutput());
         $this->assertEquals("Info: Hello World\n", $this->getInfoOutput());
         $this->assertEquals("Warning: Hello World\n", $this->getWarningOutput());
@@ -78,7 +62,7 @@ class LoggerTest extends TestCase
     /** @test */
     public function debug_and_info_messages_are_not_logged_if_the_log_level_is_set_to_warning_but_warning_and_error_messages_are()
     {
-        $this->logger->setLogLevel(Logger::LOG_LEVEL_WARNING);
+        $this->logger->setLogLevel(AbstractLogger::LOG_LEVEL_WARNING);
         $this->assertEquals("", $this->getDebugOutput());
         $this->assertEquals("", $this->getInfoOutput());
         $this->assertEquals("Warning: Hello World\n", $this->getWarningOutput());
@@ -88,7 +72,7 @@ class LoggerTest extends TestCase
     /** @test */
     public function only_error_messages_are_logged_when_the_log_level_is_set_to_critical()
     {
-        $this->logger->setLogLevel(Logger::LOG_LEVEL_CRITICAL);
+        $this->logger->setLogLevel(AbstractLogger::LOG_LEVEL_CRITICAL);
         $this->assertEquals("", $this->getDebugOutput());
         $this->assertEquals("", $this->getInfoOutput());
         $this->assertEquals("", $this->getWarningOutput());

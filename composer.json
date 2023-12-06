@@ -15,6 +15,11 @@
       "PFlav\\PHPLogger\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
   "require": {
     "php": "8.1.*"
   },

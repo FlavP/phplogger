@@ -6,56 +6,67 @@ namespace PFlav\PHPLogger;
 
 class Logger
 {
-    const LOG_LEVEL_INFO = 'Info';
-    const LOG_LEVEL_DEBUG = 'Debug';
-    const LOG_LEVEL_WARNING = 'Warning';
-    const LOG_LEVEL_CRITICAL = 'Critical';
-    private string $logLevel = self::LOG_LEVEL_DEBUG;
-    private array $logLevels = [
-        self::LOG_LEVEL_DEBUG => 1,
-        self::LOG_LEVEL_INFO => 2,
-        self::LOG_LEVEL_WARNING => 3,
-        self::LOG_LEVEL_CRITICAL => 4
-    ];
-    private function log(string $message, string $logLevel): void
+    private array $targets = [];
+
+
+    public function __construct()
     {
-        if ($this->logLevels[$logLevel] < $this->logLevels[$this->getLogLevel()]) {
-            return;
-        }
-        echo $message . "\n";
+        $this->addTarget('console');
     }
 
     public function debug(string $message): void
     {
-        $this->log('Debug: ' . $message, self::LOG_LEVEL_DEBUG);
+        foreach ($this->getTargets() as $target) {
+            /** @var Targets\AbstractLogger $target */
+            $target->debug($message);
+        }
     }
 
     public function info(string $message): void
     {
-        $this->log('Info: ' . $message, self::LOG_LEVEL_INFO);
+        foreach ($this->getTargets() as $target) {
+            /** @var Targets\AbstractLogger $target */
+            $target->info($message);
+        }
     }
 
     public function warning(string $message): void
     {
-        $this->log('Warning: ' . $message, self::LOG_LEVEL_WARNING);
+        foreach ($this->getTargets() as $target) {
+            /** @var Targets\AbstractLogger $target */
+            $target->warning($message);
+        }
     }
 
     public function critical(string $message): void
     {
-        $this->log('Critical: ' . $message, self::LOG_LEVEL_CRITICAL);
+        foreach ($this->getTargets() as $target) {
+            /** @var Targets\AbstractLogger $target */
+            $target->critical($message);
+        }
     }
-    
+
     public function setLogLevel(string $logLevel = null): void
     {
-        if (!isset($this->logLevels[$logLevel])) {
-            return;
+        foreach ($this->getTargets() as $target) {
+            /** @var Targets\AbstractLogger $target */
+            $target->setLogLevel($logLevel);
         }
-
-        $this->logLevel = $logLevel;
     }
 
-    public function getLogLevel(): string
+    public function addTarget(string $target): void
     {
-        return $this->logLevel;
+        $this->targets[] = $this->createTarget($target);
+    }
+
+    public function getTargets(): array
+    {
+        return $this->targets;
+    }
+
+    protected function createTarget(string $target): Targets\AbstractLogger
+    {
+        $className = 'PFlav\\PHPLogger\\Targets\\' . ucfirst($target) . 'Logger';
+        return new $className();
     }
 }
