@@ -1,11 +1,17 @@
 <?php
 
+use PFlav\PHPLogger\Logger;
 use PHPUnit\Framework\TestCase;
 
 class LoggerTest extends TestCase
 {
-    public function testLogger()
+    /** @test */
+    public function a_logger_echoes_a_message_in_the_console()
     {
-        $this->assertTrue(true);
+        $logger = new Logger();
+        ob_start();
+        $logger->log("Hello World");
+        $output = ob_get_clean();
+        $this->assertEquals("Hello World\n", $output);
     }
 }
