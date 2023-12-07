@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace PFlav\PHPLogger\Targets;
 
-class EmailLogger extends AbstractLogger
+class FileLogger extends AbstractLogger
 {
+
     public function debug(string $message): void
     {
         $this->log('Debug: ' . $message, self::LOG_LEVEL_DEBUG);
@@ -28,6 +29,6 @@ class EmailLogger extends AbstractLogger
 
     protected function write(string $message): void
     {
-        echo "Email sent with message " . $message . "\n";
+        echo "File saved with message " . $message . "\n";
     }
 }
