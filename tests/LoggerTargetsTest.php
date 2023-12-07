@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use InvalidArgumentException;
 use PFlav\PHPLogger\Logger;
 use PFlav\PHPLogger\Targets\AbstractLogger;
 use PHPUnit\Framework\TestCase;
@@ -11,19 +12,15 @@ use PHPUnit\Framework\TestCase;
 class LoggerTargetsTest extends TestCase
 {
     use LoggerTestTrait;
+
     private Logger $logger;
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->logger = new Logger();
-    }
 
     /** @test */
     public function a_logger_also_sends_the_debug_message_via_email()
     {
-       $this->logger->addTarget('email');
-       $this->assertStringContainsString("Console Message Debug: Hello World\n", $this->getDebugOutput());
-       $this->assertStringContainsString("Email sent with message Debug: Hello World\n", $this->getDebugOutput());
+        $this->logger->addTarget('email');
+        $this->assertStringContainsString("Console Message Debug: Hello World\n", $this->getDebugOutput());
+        $this->assertStringContainsString("Email sent with message Debug: Hello World\n", $this->getDebugOutput());
     }
 
     /** @test */
@@ -89,5 +86,18 @@ class LoggerTargetsTest extends TestCase
         $this->assertStringContainsString("Email sent with message Warning: Hello World\n", $this->getWarningOutput());
         $this->assertStringContainsString("Console Message Warning: Hello World\n", $this->getWarningOutput());
         $this->assertStringContainsString("Console Message Critical: Hello World\n", $this->getCriticalOutput());
+    }
+
+    /** @test */
+    public function an_exception_is_thrown_when_an_invalid_target_is_passed()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->logger->addTarget('invalid');
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->logger = new Logger();
     }
 }

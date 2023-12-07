@@ -11,12 +11,8 @@ use PHPUnit\Framework\TestCase;
 class LoggerTest extends TestCase
 {
     use LoggerTestTrait;
+
     private Logger $logger;
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->logger = new Logger();
-    }
 
     /** @test */
     public function a_logger_logs_a_debug_message_to_the_console()
@@ -90,5 +86,11 @@ class LoggerTest extends TestCase
         $this->assertEquals("Console Message Info: Hello World\n", $this->getInfoOutput());
         $this->assertEquals("Console Message Warning: Hello World\n", $this->getWarningOutput());
         $this->assertEquals("Console Message Critical: Hello World\n", $this->getCriticalOutput());
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->logger = new Logger();
     }
 }

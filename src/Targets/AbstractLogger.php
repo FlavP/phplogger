@@ -18,6 +18,14 @@ abstract class AbstractLogger
         self::LOG_LEVEL_CRITICAL => 4
     ];
 
+    abstract public function debug(string $message): void;
+
+    abstract public function info(string $message): void;
+
+    abstract public function warning(string $message): void;
+
+    abstract public function critical(string $message): void;
+
     protected function log(string $message, string $logLevel): void
     {
         if ($this->logLevels[$logLevel] < $this->logLevels[$this->getLogLevel()]) {
@@ -27,15 +35,10 @@ abstract class AbstractLogger
         $this->write($message);
     }
 
-    abstract protected function write(string $message): void;
-
-    abstract public function debug(string $message): void;
-
-    abstract public function info(string $message): void;
-
-    abstract public function warning(string $message): void;
-
-    abstract public function critical(string $message): void;
+    public function getLogLevel(): string
+    {
+        return $this->logLevel;
+    }
 
     public function setLogLevel(string $logLevel = null): void
     {
@@ -46,8 +49,5 @@ abstract class AbstractLogger
         $this->logLevel = $logLevel;
     }
 
-    public function getLogLevel(): string
-    {
-        return $this->logLevel;
-    }
+    abstract protected function write(string $message): void;
 }
