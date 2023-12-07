@@ -26,4 +26,11 @@ trait LoggerTestTrait
         $this->logger->warning("Hello World");
         return ob_get_clean();
     }
+
+    private function getCriticalOutput(): string
+    {
+        ob_start();
+        $this->logger->critical("Hello World");
+        return ob_get_clean();
+    }
 }

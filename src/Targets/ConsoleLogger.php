@@ -28,6 +28,6 @@ class ConsoleLogger extends AbstractLogger
 
     protected function write(string $message): void
     {
-        echo $message . "\n";
+        echo "Console Message " . $message . "\n";
     }
 }

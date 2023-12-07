@@ -18,35 +18,28 @@ class LoggerTest extends TestCase
         $this->logger = new Logger();
     }
 
-    private function getCriticalOutput(): string
-    {
-        ob_start();
-        $this->logger->critical("Hello World");
-        return ob_get_clean();
-    }
-
     /** @test */
     public function a_logger_logs_a_debug_message_to_the_console()
     {
-        $this->assertEquals("Debug: Hello World\n", $this->getDebugOutput());
+        $this->assertEquals("Console Message Debug: Hello World\n", $this->getDebugOutput());
     }
 
     /** @test */
     public function a_logger_logs_an_info_message_to_the_console()
     {
-        $this->assertEquals("Info: Hello World\n", $this->getInfoOutput());
+        $this->assertEquals("Console Message Info: Hello World\n", $this->getInfoOutput());
     }
 
     /** @test */
     public function a_logger_logs_a_warning_message_to_the_console()
     {
-        $this->assertEquals("Warning: Hello World\n", $this->getWarningOutput());
+        $this->assertEquals("Console Message Warning: Hello World\n", $this->getWarningOutput());
     }
 
     /** @test */
     public function a_logger_logs_an_error_message_to_the_console()
     {
-        $this->assertEquals("Critical: Hello World\n", $this->getCriticalOutput());
+        $this->assertEquals("Console Message Critical: Hello World\n", $this->getCriticalOutput());
     }
 
     /** @test */
@@ -54,9 +47,9 @@ class LoggerTest extends TestCase
     {
         $this->logger->setLogLevel(AbstractLogger::LOG_LEVEL_INFO);
         $this->assertEquals("", $this->getDebugOutput());
-        $this->assertEquals("Info: Hello World\n", $this->getInfoOutput());
-        $this->assertEquals("Warning: Hello World\n", $this->getWarningOutput());
-        $this->assertEquals("Critical: Hello World\n", $this->getCriticalOutput());
+        $this->assertEquals("Console Message Info: Hello World\n", $this->getInfoOutput());
+        $this->assertEquals("Console Message Warning: Hello World\n", $this->getWarningOutput());
+        $this->assertEquals("Console Message Critical: Hello World\n", $this->getCriticalOutput());
     }
 
     /** @test */
@@ -65,8 +58,8 @@ class LoggerTest extends TestCase
         $this->logger->setLogLevel(AbstractLogger::LOG_LEVEL_WARNING);
         $this->assertEquals("", $this->getDebugOutput());
         $this->assertEquals("", $this->getInfoOutput());
-        $this->assertEquals("Warning: Hello World\n", $this->getWarningOutput());
-        $this->assertEquals("Critical: Hello World\n", $this->getCriticalOutput());
+        $this->assertEquals("Console Message Warning: Hello World\n", $this->getWarningOutput());
+        $this->assertEquals("Console Message Critical: Hello World\n", $this->getCriticalOutput());
     }
 
     /** @test */
@@ -76,26 +69,26 @@ class LoggerTest extends TestCase
         $this->assertEquals("", $this->getDebugOutput());
         $this->assertEquals("", $this->getInfoOutput());
         $this->assertEquals("", $this->getWarningOutput());
-        $this->assertEquals("Critical: Hello World\n", $this->getCriticalOutput());
+        $this->assertEquals("Console Message Critical: Hello World\n", $this->getCriticalOutput());
     }
 
     /** @test */
     public function the_log_level_is_unchanged_if_an_invalid_log_level_is_set()
     {
         $this->logger->setLogLevel("Invalid Log Level");
-        $this->assertEquals("Debug: Hello World\n", $this->getDebugOutput());
-        $this->assertEquals("Info: Hello World\n", $this->getInfoOutput());
-        $this->assertEquals("Warning: Hello World\n", $this->getWarningOutput());
-        $this->assertEquals("Critical: Hello World\n", $this->getCriticalOutput());
+        $this->assertEquals("Console Message Debug: Hello World\n", $this->getDebugOutput());
+        $this->assertEquals("Console Message Info: Hello World\n", $this->getInfoOutput());
+        $this->assertEquals("Console Message Warning: Hello World\n", $this->getWarningOutput());
+        $this->assertEquals("Console Message Critical: Hello World\n", $this->getCriticalOutput());
     }
 
     /** @test */
     public function the_log_level_is_unchanged_if_a_null_log_level_is_set()
     {
         $this->logger->setLogLevel();
-        $this->assertEquals("Debug: Hello World\n", $this->getDebugOutput());
-        $this->assertEquals("Info: Hello World\n", $this->getInfoOutput());
-        $this->assertEquals("Warning: Hello World\n", $this->getWarningOutput());
-        $this->assertEquals("Critical: Hello World\n", $this->getCriticalOutput());
+        $this->assertEquals("Console Message Debug: Hello World\n", $this->getDebugOutput());
+        $this->assertEquals("Console Message Info: Hello World\n", $this->getInfoOutput());
+        $this->assertEquals("Console Message Warning: Hello World\n", $this->getWarningOutput());
+        $this->assertEquals("Console Message Critical: Hello World\n", $this->getCriticalOutput());
     }
 }

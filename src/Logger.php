@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PFlav\PHPLogger;
 
+use PFlav\PHPLogger\Targets\AbstractLogger;
+
 class Logger
 {
     private array $targets = [];
@@ -54,9 +56,16 @@ class Logger
         }
     }
 
-    public function addTarget(string $target): void
+    public function addTarget(string $target, string $logLevel = AbstractLogger::LOG_LEVEL_DEBUG): void
     {
-        $this->targets[] = $this->createTarget($target);
+        $logger = $this->createTarget($target);
+        $index = array_search($logger, $this->targets);
+        if ($index !== false) {
+            $this->targets[$index]->setLogLevel($logLevel);
+        } else {
+            $logger->setLogLevel($logLevel);
+            $this->targets[] = $logger;
+        }
     }
 
     public function getTargets(): array
