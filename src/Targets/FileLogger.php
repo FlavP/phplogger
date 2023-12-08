@@ -6,7 +6,6 @@ namespace PFlav\PHPLogger\Targets;
 
 class FileLogger extends AbstractLogger
 {
-
     public function debug(string $message): void
     {
         $this->log('Debug: ' . $message, self::LOG_LEVEL_DEBUG);

@@ -2,8 +2,14 @@
 
 declare(strict_types=1);
 
+use PFlav\PHPLogger\Logger;
+
 require_once __DIR__ . '/vendor/autoload.php';
 
-$logger = new \PFlav\PHPLogger\Logger();
+$logger = new Logger();
 
-$logger->debug('Hello World');
+$logger->addTarget('file', 'critical');
+
+$logger->debug('Debug Message');
+
+$logger->critical('Critical Message');
