@@ -6,6 +6,7 @@ Awin Home Test Solution
  - To prioritize the messages I used an associative array, sorted by the priority of the log levels. That way, when you would check the priority, you would have an O(1) complexity.
  - This is done for the purpose of the exercise, but in a real world scenario the log level would be saved in an environment variable.
  - Also, the class would be a service that would be injected in the constructor.
+ - I took the liberty of using the log level of 'critical' for the 'error' log level.
 
 ---
 
